@@ -63,7 +63,7 @@ export default class DataTable extends Component {
           </tbody>
         </Table>
       </div>
-      <Modal buttonLabel = "Click me" ref='modal'/>
+      <Modal ref='modal'/>
       </Fragment>
     );
   }

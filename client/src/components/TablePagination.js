@@ -143,9 +143,7 @@ export default class TablePagination extends Component {
   }
 
   getPageCount = () => {
-    const pageCount = Math.ceil(this.state.metadata.length / this.pageSize);
-    alert(pageCount);
-    return pageCount;
+    return Math.ceil(this.state.metadata.length / this.pageSize);
   }
 
   sort = (column, order) => {
