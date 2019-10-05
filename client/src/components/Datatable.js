@@ -29,14 +29,15 @@ export default class DataTable extends Component {
   }
 
   getKeys = () => {
-    return Object.keys(this.data()[0]).filter((key) => key != 'imageUrl');
+    const data = this.data();
+    return data.length > 0? Object.keys(this.data()[0]).slice(0,3) : [];
   }
 
   getHeader = () => {
     var keys = this.getKeys();
     return keys.map((key, index) => {
       return <th onClick={e => this.handleClick(e, index)} key={key}>
-              {key.toUpperCase().substring(0,)}
+              {key.toUpperCase().substring(0,8)}
               </th>
     })
   }
@@ -75,6 +76,6 @@ const tdStyle = {
 const RenderRow = (props) => {
   return props.keys.map((key, index) => {
     return <td key={key} style={tdStyle} onClick={e => props.callback(props.row)}>{props.data[key]}</td>
-    //return <td key={props.data[key]}>{props.data[key].substring(0,8)}</td>
+    //return <td key={props.data[key0]}>{props.data[key].substring(0,8)}</td>
   })
 }

@@ -118,16 +118,16 @@ export default class TablePagination extends Component {
 
     this.state = {
       currentPageNo: 0,
-      metadata: testdata2
+      metadata: [],
+      pageCount: 0
     };
 
-    this.pageSize = 50;
-    this.pagesCount = Math.ceil(this.state.metadata.length / this.pageSize)
+    this.pageSize = 10;
   }
 
   componentDidMount() {
     axios.get('http://jsonplaceholder.typicode.com/todos')
-    .then(response => { this.setState({ metadata: response.data }); this.pagesCount = Math.ceil(this.state.metadata.length / this.pageSize) } )
+    .then(response => { this.setState({ metadata: response.data}); this.setState({pageCount: this.getPageCount() }) })
       .catch(error => { console.log(error.message); })
   }
 
@@ -140,6 +140,12 @@ export default class TablePagination extends Component {
     return this.state.metadata.slice(
       this.state.currentPageNo * this.pageSize,
       (this.state.currentPageNo + 1) * this.pageSize)
+  }
+
+  getPageCount = () => {
+    const pageCount = Math.ceil(this.state.metadata.length / this.pageSize);
+    alert(pageCount);
+    return pageCount;
   }
 
   sort = (column, order) => {
@@ -180,7 +186,7 @@ export default class TablePagination extends Component {
               />
             </PaginationItem>
 
-            {[...Array(this.pagesCount)].map((page, i) =>
+            {[...Array(this.state.pageCount)].map((page, i) =>
               <PaginationItem active={i === currentPageNo} key={i}>
                 <PaginationLink onClick={e => this.handleClick(e, i)} href="#">
                   {i + 1}
@@ -188,7 +194,7 @@ export default class TablePagination extends Component {
               </PaginationItem>
             )}
 
-            <PaginationItem disabled={currentPageNo >= this.pagesCount - 1}>
+            <PaginationItem disabled={currentPageNo >= this.state.pageCount - 1}>
               <PaginationLink
                 onClick={e => this.handleClick(e, currentPageNo + 1)}
                 next
