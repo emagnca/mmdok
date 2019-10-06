@@ -69,26 +69,6 @@ class MyModal extends React.Component {
     return <PdfViewer />
   }
 
-  /*
-  render() {
-    return (
-      <div>
-        <Modal isOpen={this.state.modal} toggle={this.toggle} >
-          <ModalHeader toggle={this.toggle}>Dokumenttitel</ModalHeader>
-          <ModalBody>
-            {this.state.body}
-          </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={this.hide}>Visa dokument</Button>{' '}
-            <Button color="secondary" onClick={this.hide}>Stäng</Button>
-          </ModalFooter>
-        </Modal>
-      </div>
-    );
-  }
-}
-*/
-
 render() {
   return (
     <div>
@@ -98,11 +78,11 @@ render() {
           {this.state.body}
           <br />
           <Modal isOpen={this.state.nestedModal} toggle={this.toggleNested} onClosed={this.state.closeAll ? this.toggle : undefined}>
-            <ModalBody>{this.state.document}</ModalBody>
-            <ModalFooter>
+            <ModalHeader>
               <Button color="primary" onClick={this.toggleNested}>Visa metadata</Button>{' '}
               <Button color="secondary" onClick={this.toggleAll}>Stäng</Button>
-            </ModalFooter>
+            </ModalHeader>
+            <ModalBody>{this.state.document}</ModalBody>
           </Modal>
         </ModalBody>
         <ModalFooter>
