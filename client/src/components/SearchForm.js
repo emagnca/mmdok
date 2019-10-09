@@ -3,47 +3,95 @@ import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 
 export default class SearchForm extends React.Component {
 
-CLAIM_SEARCH = "Sakskador";
-LIFE_SEARCH = "Livdokument";
+  config =
+    [
+      {
+        "name": "Sakskador",
+        "fields":
+          [
+            {
+              "name": "Skadenummer",
+              "id": "Skadenummer",
+              "type": "text",
+              "placeholder": "FF12345678"
+            },
+            {
+              "name": "Dokumenttyp",
+              "id": "Dokumenttyp",
+              "type": "select",
+              "values": ["Typ1", "Typ2", "Typ3"]
+            }
+          ]
+      },
+      {
+        "name": "Livskador",
+        "fields":
+          [
+            {
+              "name": "Kundnummer",
+              "id": "Kundnummer",
+              "type": "text",
+              "placeholder": "ABC123456"
+            }
+          ]
+      }
+    ]
 
-constructor() {
+  documentTypes = new Map();
+
+  constructor() {
     super();
+    this.types = {};
+    this.config.map((item, index) => { this.documentTypes[item.name] = item.fields; });
     this.state = {
-        searchType: this.CLAIM_SEARCH
+      form: this.documentTypes['Sakskador'].map((item, index) => { return this.getForm(item); })
     };
-}
+  }
 
-handleChange (v) {
-    alert('handle change called' + v);
-}
+  getTextForm(item) {
+      return <FormGroup>
+           <Label>{item.name}</Label>
+            <Input type="text" id="claimNo" placeholder={item.placeholder}  />
+      </FormGroup>
+  }
 
-//{opened && <SomeElement />}
-//https://alligator.io/react/fancy-forms-reactstrap/
+  getSelectForm(item) {
+    return <FormGroup>
+    <Label name={item.name}>{item.name}</Label>
+    <Input type="select" name="select" id="selectInput" >
+      {item.values.map( (v,i) => { return <option>{v}</option> } )}
+    </Input>
+  </FormGroup>
+  }
+
+  getForm(item){
+    if (item.type === 'text') return this.getTextForm(item);
+    else if (item.type === 'select') return this.getSelectForm(item);
+  }
+
+  handleChange(v) {
+    const docType = this.documentTypes[v];
+    this.setState({ form: docType.map((item, index) => {
+        return this.getForm(item);
+    })
+    });
+  }
+
+
+  getDocumentTypes = () => {
+    return this.config.map((entry, index) => <option key={index}>{entry.name}</option>)
+  }
 
   render() {
     return (
       <Form>
         <FormGroup>
-          <Label for="exampleSelect">Select</Label>
-          <Input type="select" name="select" id="exampleSelect" onChange={(e) => {this.handleChange(e.target.value)}}>
-            <option>{this.CLAIM_SEARCH}</option>
-            <option>{this.LIFE_SEARCH}</option>
+          <Label for="documentTypes">Sökningar</Label>
+          <Input type="select" name="select" id="documentTypes" onChange={(e) => { this.handleChange(e.target.value) }}>
+            {this.getDocumentTypes()}
           </Input>
         </FormGroup>
-        <FormGroup>
-          <Label for="claimNo">Skadenummer</Label>
-          <Input type="text" name="claimNo" id="claimNo" placeholder="FF12345678" />
-        </FormGroup>
-        <FormGroup>
-          <Label for="documentType">Dokumenttyp</Label>
-          <Input type="select" name="select" id="selectInput" >
-            <option>Typ1</option>
-            <option>Typ2</option>
-            <option>Typ3</option>
-            <option>Typ4</option>
-            <option>Typ5</option>
-          </Input>
-        </FormGroup>
+        {this.state.form}
         <Button>Sök</Button>
       </Form>
     );
