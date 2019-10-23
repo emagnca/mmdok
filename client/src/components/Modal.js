@@ -21,7 +21,7 @@ class MyModal extends React.Component {
     this.setState({
       modal: !this.state.modal,
       body: this.getMetadata(data),
-      document: this.getDocument()
+      document: this.getDocument(data)
     });
   }
 
@@ -65,8 +65,8 @@ class MyModal extends React.Component {
 
   }
 
-  getDocument(){
-    return <PdfViewer />
+  getDocument(data){
+    return <PdfViewer data={data}></PdfViewer>
   }
 
 render() {

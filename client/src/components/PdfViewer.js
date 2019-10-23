@@ -2,24 +2,30 @@
 
 import React, { Component } from 'react';
 import { Document, Page } from 'react-pdf';
- 
+
 export default class PdfViewer extends Component {
-  state = {
-    numPages: null,
-    pageNumber: 1,
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      numPages: null,
+      pageNumber: 1,
+      filename: this.props.data['filename']
+    }
   }
- 
+
+
   onDocumentLoadSuccess = ({ numPages }) => {
     this.setState({ numPages });
   }
- 
+
   render() {
     const { pageNumber, numPages } = this.state;
- 
+
     return (
       <div>
         <Document
-          file="./FolksamRekvisition.pdf"
+          file={"http://35.228.104.97/view/" + this.state.filename}
           onLoadSuccess={this.onDocumentLoadSuccess}
         >
           <Page pageNumber={pageNumber} />
