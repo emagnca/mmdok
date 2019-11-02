@@ -49,31 +49,32 @@ export default class SearchForm extends React.Component {
   }
 
   getTextForm(item) {
-      return <FormGroup>
-           <Label>{item.name}</Label>
-            <Input type="text" id="claimNo" placeholder={item.placeholder}  />
-      </FormGroup>
+    return <FormGroup key={item.id}>
+      <Label>{item.name}</Label>
+      <Input type="text" id="claimNo" placeholder={item.placeholder} />
+    </FormGroup>
   }
 
   getSelectForm(item) {
-    return <FormGroup>
-    <Label name={item.name}>{item.name}</Label>
-    <Input type="select" name="select" id="selectInput" >
-      {item.values.map( (v,i) => { return <option>{v}</option> } )}
-    </Input>
-  </FormGroup>
+    return <FormGroup key={item.id}>
+      <Label name={item.name}>{item.name}</Label>
+      <Input type="select" name="select" id="selectInput" >
+        {item.values.map((v, i) => { return <option key={i}>{v}</option> })}
+      </Input>
+    </FormGroup>
   }
 
-  getForm(item){
+  getForm(item) {
     if (item.type === 'text') return this.getTextForm(item);
     else if (item.type === 'select') return this.getSelectForm(item);
   }
 
   handleChange(v) {
     const docType = this.documentTypes[v];
-    this.setState({ form: docType.map((item, index) => {
+    this.setState({
+      form: docType.map((item, index) => {
         return this.getForm(item);
-    })
+      })
     });
   }
 

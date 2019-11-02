@@ -27,8 +27,8 @@ export default class TablePagination extends Component {
 
   componentDidMount() {
     //this.setState({ metadata: this.data}); this.setState({pageCount: this.getPageCount() })
-    
-    axios.get('http://35.228.104.97/filelist')
+    axios.get('http://jsonplaceholder.typicode.com/todos')
+    //axios.get('http://35.228.104.97/filelist')
     .then(response => { this.data = response.data; 
                         this.setState({metadata: response.data}); 
                         this.setState({pageCount: this.getPageCount() }) })
@@ -52,15 +52,13 @@ export default class TablePagination extends Component {
   }
 
   filter = (txt) => {
-    let arr = this.data;
-    var key;
-    arr = arr.filter((row) => {
-      for (key in row){
+    let arr = this.data.filter((row) => {
+      for (var key in row){
         if(row[key].toString().includes(txt)) return true;
       }
       return false;
     });
-    this.setState({ currentPageNo: 0, metadata: arr });
+    this.setState({ currentPageNo: 0, metadata: arr, pageCount: Math.ceil(arr.length / this.pageSize)});
   }
 
   sort = (column, order) => {
