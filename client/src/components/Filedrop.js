@@ -3,7 +3,9 @@ import FileDrop from 'react-file-drop';
 
 class ReactFileDropDemo extends Component {
   handleDrop = (files, event) => {
-    console.log(files, event);
+    for (var i = 0; i < files.length; i++) { 
+      alert(files[i].name);
+    }
   }
 
   render() {

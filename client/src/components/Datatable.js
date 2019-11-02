@@ -46,7 +46,8 @@ export default class DataTable extends Component {
     var items = this.data();
     var keys = this.getKeys();
     return items.map((row, index) => {
-        return <tr key={index}><RenderRow key={index} row={index} data={row} keys={keys} callback={this.handleRowClick}/></tr>
+        return <tr key={index}><RenderRow key={index} row={index} data={row} keys={keys} callback={this.handleRowClick}/>
+               </tr>
     })
   }
 

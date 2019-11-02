@@ -1,13 +1,21 @@
 import React, { Component, Fragment } from 'react';
-import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+import { Input, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import axios from 'axios';
 import Datatable from './Datatable';
 
 export default class TablePagination extends Component {
 
+  DATA = [
+    {'Name': 'Magnus', 'Age': 55, 'Location': 'Bromma'},
+    {'Name': 'Masoud', 'Age': 59, 'Location': 'Södermalm'},
+    {'Name': 'Stina', 'Age': 30, 'Location': 'Kista'},
+    {'Name': 'Olle', 'Age': 87, 'Location': 'Älvsjö'}
+]
+
   constructor() {
 
     super();
+    this.data = [...this.DATA];
     this.state = {
       currentPageNo: 0,
       metadata: [],
@@ -18,9 +26,14 @@ export default class TablePagination extends Component {
   }
 
   componentDidMount() {
+    //this.setState({ metadata: this.data}); this.setState({pageCount: this.getPageCount() })
+    
     axios.get('http://35.228.104.97/filelist')
-    .then(response => { this.setState({ metadata: response.data}); this.setState({pageCount: this.getPageCount() }) })
+    .then(response => { this.data = response.data; 
+                        this.setState({metadata: response.data}); 
+                        this.setState({pageCount: this.getPageCount() }) })
       .catch(error => { console.log(error.message); })
+    
   }
 
   handleClick = (e, index) => {
@@ -36,6 +49,18 @@ export default class TablePagination extends Component {
 
   getPageCount = () => {
     return Math.ceil(this.state.metadata.length / this.pageSize);
+  }
+
+  filter = (txt) => {
+    let arr = this.data;
+    var key;
+    arr = arr.filter((row) => {
+      for (key in row){
+        if(row[key].toString().includes(txt)) return true;
+      }
+      return false;
+    });
+    this.setState({ currentPageNo: 0, metadata: arr });
   }
 
   sort = (column, order) => {
@@ -63,7 +88,7 @@ export default class TablePagination extends Component {
     const currentPageNo = this.state.currentPageNo;
     return (
       <Fragment>
-
+        
         <Datatable
           data={this.currentPage}
           sort={this.sort}
