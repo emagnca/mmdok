@@ -39,8 +39,9 @@ export default class SearchForm extends React.Component {
 
   documentTypes = new Map();
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.search = props.search;
     this.types = {};
     this.config.map((item, index) => { this.documentTypes[item.name] = item.fields; });
     this.state = {
@@ -78,9 +79,13 @@ export default class SearchForm extends React.Component {
     });
   }
 
-
   getDocumentTypes = () => {
     return this.config.map((entry, index) => <option key={index}>{entry.name}</option>)
+  }
+
+  onFormSubmit = () => {
+    console.log("onFormSubmit");
+    this.search();
   }
 
   render() {
@@ -93,7 +98,7 @@ export default class SearchForm extends React.Component {
           </Input>
         </FormGroup>
         {this.state.form}
-        <Button>Sök</Button>
+        <Button onClick={this.onFormSubmit}>Sök</Button>
       </Form>
     );
   }

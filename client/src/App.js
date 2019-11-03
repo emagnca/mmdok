@@ -10,15 +10,21 @@ import Datatable from './components/Datatable';
 import TablePagination from './components/TablePagination';
 import SearchForm from './components/SearchForm';
 
-class App extends Component {
+export default class App extends Component {
 
-	constructor(props) {
-		super(props);
+	constructor() {
+		super();
 	}
 
-	filter = (txt) => {
-		this.refs.Table.filter(txt);
+	filter = txt => {
+		console.log("this.refs.table.filter");
+		this.refs.table.filter(txt);
 	} 
+
+	search = () => {
+		console.log("this.refs.table.data");
+		this.refs.table.search("ab");
+	}
 
 	render = () => {
 		return (
@@ -28,10 +34,10 @@ class App extends Component {
 					<Container className="px-0">
 						<Row noGutters className="pt-2 pt-md-5 w-100 px-4 px-xl-0 position-relative">
 							<Col key={1} xs={{ order: 1 }} md={{ size: 2, order: 1 }} tag="aside" className="pb-5 mb-5 pb-md-0 mb-md-0 mx-auto mx-md-0">
-								<SearchForm/>
+								<SearchForm search={this.search}/>
 							</Col>
 							<Col key={2} xs={{ order: 2 }} md={{ size: 9, offset: 1 }} tag="section" className="py-5 mb-5 py-md-0 mb-md-0">
-								<TablePagination ref='Table'/>
+								<TablePagination ref='table'/>
 							</Col>
 						</Row>
 					</Container>
@@ -41,23 +47,3 @@ class App extends Component {
 	}
 }
 
-
-/*
-const App = () => (
-	<Fragment>
-		<Header />
-		<main className="my-5 py-5">
-			<Container className="px-0">
-				<Row noGutters className="pt-2 pt-md-5 w-100 px-4 px-xl-0 position-relative">
-					<Col xs={{ order: 1 }} md={{ size: 12, offset: 1 }} tag="section" className="py-5 mb-5 py-md-0 mb-md-0">
-						<TablePagination />
-					</Col>
-				</Row>
-			</Container>
-		</main>
-	</Fragment>
-);
-*/
-
-
-export default App;

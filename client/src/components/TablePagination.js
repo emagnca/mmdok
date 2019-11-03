@@ -32,8 +32,7 @@ export default class TablePagination extends Component {
     .then(response => { this.data = response.data; 
                         this.setState({metadata: response.data}); 
                         this.setState({pageCount: this.getPageCount() }) })
-      .catch(error => { console.log(error.message); })
-    
+      .catch(error => { console.log(error.message); })  
   }
 
   handleClick = (e, index) => {
@@ -51,7 +50,7 @@ export default class TablePagination extends Component {
     return Math.ceil(this.state.metadata.length / this.pageSize);
   }
 
-  filter = (txt) => {
+  filter = txt => {
     let arr = this.data.filter((row) => {
       for (var key in row){
         if(row[key].toString().includes(txt)) return true;
@@ -74,13 +73,14 @@ export default class TablePagination extends Component {
     }
   }
 
-  data = () => {
-    return this.getCurrentPage();
+  search = params => {
+    axios.get('http://35.228.104.97/filelist')
+    .then(response => { this.data = response.data; 
+                        this.setState({metadata: response.data}); 
+                        this.setState({pageCount: this.getPageCount() }) })
+      .catch(error => { console.log(error.message); })  
   }
 
-  read = () => {
-
-  }
 
   render = () => {
     const currentPageNo = this.state.currentPageNo;
