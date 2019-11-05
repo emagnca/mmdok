@@ -44,9 +44,10 @@ export default class SearchForm extends React.Component {
     this.search = props.search;
     this.types = {};
     this.config.map(item => { this.documentTypes[item.name] = item.fields; });
-    this.docType = this.documentTypes['Sakskador'];
+    this.docType = 'Sakskador';
+    this.fields = this.documentTypes[this.docType];
     this.state = {
-      form: this.docType.map((item, index) => { return this.getForm(item); })
+      form: this.fields.map((item, index) => { return this.getForm(item); })
     };
   }
 
@@ -76,9 +77,10 @@ export default class SearchForm extends React.Component {
   }
 
   handleChange(v) {
-    this.docType = this.documentTypes[v];
+    this.docType = v;
+    this.fields = this.documentTypes[v];
     this.setState({
-      form: this.docType.map(item => {
+      form: this.fields.map(item => {
         return this.getForm(item);
       })
     });
@@ -93,11 +95,10 @@ export default class SearchForm extends React.Component {
   }
 
   onFormSubmit = () => {
-    let urlParams = "";
-    for (var i = 0; i<this.docType.length; i++){
-      const field = this.docType[i]; 
-      urlParams += urlParams.length > 0 ? "&":"?"; 
-      urlParams += field['name'] + "=" + this.getValueById(field['id']);
+    let urlParams = "?type=" + this.docType;
+    for (var i=0; i<this.fields.length; i++){
+      const field = this.fields[i];  
+      urlParams += "&" + field['name'] + "=" + this.getValueById(field['id']);
     }
     this.search(urlParams);
   }
