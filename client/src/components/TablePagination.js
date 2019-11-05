@@ -74,7 +74,7 @@ export default class TablePagination extends Component {
   }
 
   search = params => {
-    axios.get('http://35.228.104.97/filelist')
+    axios.get('http://35.228.104.97/filelist' + params)
     .then(response => { this.data = response.data; 
                         this.setState({metadata: response.data}); 
                         this.setState({pageCount: this.getPageCount() }) })

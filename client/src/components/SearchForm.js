@@ -43,26 +43,31 @@ export default class SearchForm extends React.Component {
     super(props);
     this.search = props.search;
     this.types = {};
-    this.config.map((item, index) => { this.documentTypes[item.name] = item.fields; });
+    this.config.map(item => { this.documentTypes[item.name] = item.fields; });
+    this.docType = this.documentTypes['Sakskador'];
     this.state = {
-      form: this.documentTypes['Sakskador'].map((item, index) => { return this.getForm(item); })
+      form: this.docType.map((item, index) => { return this.getForm(item); })
     };
   }
 
   getTextForm(item) {
-    return <FormGroup key={item.id}>
-      <Label>{item.name}</Label>
-      <Input type="text" id="claimNo" placeholder={item.placeholder} />
-    </FormGroup>
+    return (
+      <FormGroup key={item.id}>
+        <Label>{item.name}</Label>
+        <Input type="text" id={item.id} placeholder={item.placeholder} />
+      </FormGroup>
+    );
   }
 
   getSelectForm(item) {
-    return <FormGroup key={item.id}>
-      <Label name={item.name}>{item.name}</Label>
-      <Input type="select" name="select" id="selectInput" >
-        {item.values.map((v, i) => { return <option key={i}>{v}</option> })}
-      </Input>
-    </FormGroup>
+    return (
+      <FormGroup key={item.id}>
+        <Label name={item.name}>{item.name}</Label>
+        <Input type="select" id={item.id} >
+          {item.values.map((v, i) => { return <option key={i}>{v}</option> })}
+        </Input>
+      </FormGroup>
+    );
   }
 
   getForm(item) {
@@ -71,9 +76,9 @@ export default class SearchForm extends React.Component {
   }
 
   handleChange(v) {
-    const docType = this.documentTypes[v];
+    this.docType = this.documentTypes[v];
     this.setState({
-      form: docType.map((item, index) => {
+      form: this.docType.map(item => {
         return this.getForm(item);
       })
     });
@@ -83,9 +88,18 @@ export default class SearchForm extends React.Component {
     return this.config.map((entry, index) => <option key={index}>{entry.name}</option>)
   }
 
+  getValueById = (id) => {
+    return document.getElementById(id).value;
+  }
+
   onFormSubmit = () => {
-    console.log("onFormSubmit");
-    this.search();
+    let urlParams = "";
+    for (var i = 0; i<this.docType.length; i++){
+      const field = this.docType[i]; 
+      urlParams += urlParams.length > 0 ? "&":"?"; 
+      urlParams += field['name'] + "=" + this.getValueById(field['id']);
+    }
+    this.search(urlParams);
   }
 
   render() {

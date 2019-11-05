@@ -21,9 +21,9 @@ export default class App extends Component {
 		this.refs.table.filter(txt);
 	} 
 
-	search = () => {
+	search = params => {
 		console.log("this.refs.table.data");
-		this.refs.table.search("ab");
+		this.refs.table.search(params);
 	}
 
 	render = () => {
