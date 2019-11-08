@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Input, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import axios from 'axios';
 import Datatable from './Datatable';
 
@@ -68,7 +68,7 @@ export default class TablePagination extends Component {
     function sortFunction(a, b) {
       a = a[column];
       b = b[column];
-      let cmp = isNaN(a - b) ? (a === b) ? 0 : (a < b) ? -1 : 1 : a - b;
+      let cmp = (a === b) ? 0 : (a < b) ? -1 : 1;
       return order ? cmp : cmp * -1;
     }
   }
