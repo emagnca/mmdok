@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import classnames from 'classnames';
 import logo from '../edoklogo.jpg';
 
 import {
-  Container, Row, Col, Form, Input, Button, Navbar, Nav,
+  Container, Row, Col, Form, Input, Navbar, Nav,
   NavbarBrand, NavLink, NavItem, UncontrolledDropdown,
   DropdownToggle, DropdownMenu, DropdownItem
 } from 'reactstrap';
@@ -14,8 +15,10 @@ class Header extends Component {
   constructor(props) {
     super(props);
     this.filter = props.filter;
+    this.showSearch = props.showSearch;
+    this.showWrite = props.showWrite;
   }
-
+  
   handleKeyUp = (e) => {
     this.filter(e.target.value);
   }
@@ -23,12 +26,12 @@ class Header extends Component {
     render = () => {
       return (
     <header>
-      <Navbar fixed="top" color="light" light expand="xs" className="border-bottom border-gray bg-white" style={{ height: 80 }}>
+      <Navbar fixed="top" color="light" light expand="xs" className="d-flex border-bottom border-gray bg-white" style={{ height: 80 }}>
         <Container>
           <Row noGutters className="position-relative w-100 align-items-center">
 
-            <Col className="d-none d-lg-flex justify-content-start">
-              <Nav className="mrx-auto" navbar>
+            <Col className="d-flex d-lg-flex justify-content-start">
+              <Nav className="mrx-auto" navbar tabs>
 
                 <NavItem className="d-flex align-items-center">
                   <NavLink className="font-weight-bold" href="/">
@@ -37,25 +40,23 @@ class Header extends Component {
                 </NavItem>
 
                 <NavItem className="d-flex align-items-center">
-                  <NavLink className="font-weight-bold" href="/">Home</NavLink>
+                  <NavLink className="font-weight-bold" onClick={() => { this.showSearch(); }}>Sökning</NavLink>
                 </NavItem>
 
                 <NavItem className="d-flex align-items-center">
-                  <NavLink className="font-weight-bold" href="/">Events</NavLink>
+                  <NavLink className="font-weight-bold" onClick={() => { this.showWrite(); }}>Inläsning</NavLink>
                 </NavItem>
 
                 <UncontrolledDropdown className="d-flex align-items-center" nav inNavbar>
-                  <DropdownToggle className="font-weight-bold" nav caret>Learn</DropdownToggle>
+                  <DropdownToggle className="font-weight-bold" nav caret>Hjälp</DropdownToggle>
                   <DropdownMenu right>
-                    <DropdownItem className="font-weight-bold text-secondary text-uppercase" header disabled>Learn eDok!</DropdownItem>
+                    <DropdownItem>Dokumentation</DropdownItem>
+                    <DropdownItem>Support</DropdownItem>
                     <DropdownItem divider />
-                    <DropdownItem>Documentation</DropdownItem>
-                    <DropdownItem>Tutorials</DropdownItem>
-                    <DropdownItem>Courses</DropdownItem>
+                    <DropdownItem>Om MMDok</DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
-
-              </Nav>
+                </Nav>
             </Col>
 
             <Col className="d-flex justify-content-xs-start justify-content-lg-center">
@@ -64,7 +65,7 @@ class Header extends Component {
               </NavbarBrand>
             </Col>
 
-            <Col className="d-none d-lg-flex justify-content-end">
+            <Col className="d-flex d-lg-flex justify-content-end">
               <Form inline>
                 <Input type="text" className="mr-3" placeholder="Sök metadata" onKeyUp={(v) => this.handleKeyUp(v)} />
               </Form>
