@@ -102,8 +102,8 @@ export default class MetadataForm extends React.Component {
 
   onFormSubmit = () => {
     let urlParams = "?type=" + this.docType;
-    for (var i=0; i<this.fields.length; i++){
-      const field = this.fields[i];  
+    for (var i = 0; i < this.fields.length; i++) {
+      const field = this.fields[i];
       urlParams += "&" + field['name'] + "=" + this.getValueById(field['id']);
     }
     this.search(urlParams);
@@ -113,14 +113,19 @@ export default class MetadataForm extends React.Component {
     return (
       <Form>
         <FormGroup>
+          <h4>Metadata för dokumenten</h4>
+          <hr style={{
+            color: 'gray',
+            backgroundColor: 'gray',
+            height: .5,
+            borderColor: 'gray'
+          }} />
           <Label for="documentTypes">Dokumenttyp</Label>
           <Input type="select" name="select" id="documentTypes" onChange={(e) => { this.handleChange(e.target.value) }}>
             {this.getDocumentTypes()}
           </Input>
         </FormGroup>
         {this.state.form}
-        <Button onClick={this.onFormSubmit}>Skicka filer</Button>
-        <Button>Rensa</Button>
       </Form>
     );
   }

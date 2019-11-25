@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
 export default class SearchForm extends React.Component {
 
@@ -32,6 +32,12 @@ export default class SearchForm extends React.Component {
               "id": "Kundnummer",
               "type": "text",
               "placeholder": "ABC123456"
+            },
+            {
+              "name": "Kundnummer2",
+              "id": "Kundnummer2",
+              "type": "text",
+              "placeholder": "XXX123456"
             }
           ]
       }
@@ -43,7 +49,7 @@ export default class SearchForm extends React.Component {
     super(props);
     this.search = props.search;
     this.types = {};
-    this.config.map(item => { this.documentTypes[item.name] = item.fields; });
+    this.config.map(item => { this.documentTypes[item.name] = item.fields; return true; });
     this.docType = 'Sakskador';
     this.fields = this.documentTypes[this.docType];
     this.state = {
@@ -96,8 +102,8 @@ export default class SearchForm extends React.Component {
 
   onFormSubmit = () => {
     let urlParams = "?type=" + this.docType;
-    for (var i=0; i<this.fields.length; i++){
-      const field = this.fields[i];  
+    for (var i = 0; i < this.fields.length; i++) {
+      const field = this.fields[i];
       urlParams += "&" + field['name'] + "=" + this.getValueById(field['id']);
     }
     this.search(urlParams);
@@ -105,16 +111,33 @@ export default class SearchForm extends React.Component {
 
   render() {
     return (
-      <Form>
-        <FormGroup>
-          <Label for="documentTypes">Sökningar</Label>
-          <Input type="select" name="select" id="documentTypes" onChange={(e) => { this.handleChange(e.target.value) }}>
-            {this.getDocumentTypes()}
-          </Input>
-        </FormGroup>
-        {this.state.form}
-        <Button onClick={this.onFormSubmit}>Sök</Button>
-      </Form>
+      <div style={{ textAlign: 'center' }}>
+        <Form>
+          <FormGroup>
+          <h4>Sökningar</h4>
+            <Input type="select" name="select" id="documentTypes" onChange={(e) => { this.handleChange(e.target.value) }}>
+              {this.getDocumentTypes()}
+            </Input>
+          </FormGroup>
+
+          <hr style={{
+            color: 'gray',
+            backgroundColor: 'gray',
+            height: .5,
+            borderColor: 'gray'
+          }} />
+          <h4>Metadata</h4>
+          {this.state.form}
+          <hr style={{
+            color: 'gray',
+            backgroundColor: 'gray',
+            height: .5,
+            borderColor: 'gray'
+          }} />
+
+          <Button color='primary' onClick={this.onFormSubmit}>Sök</Button>
+        </Form>
+      </div>
     );
   }
 }
