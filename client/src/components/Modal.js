@@ -67,12 +67,12 @@ class MyModal extends React.Component {
   render() {
     return (
       <div>
-        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-          <ModalHeader toggle={this.toggle}>Dokumenttitel</ModalHeader>
+        <Modal isOpen={this.state.modal} close={this.hide} toggle={this.toggle} className={this.props.className}>
+          <ModalHeader>Dokumenttitel</ModalHeader>
           <ModalBody>
             {this.state.body}
             <br />
-            <Modal isOpen={this.state.nestedModal} toggle={this.toggleNested} onClosed={this.state.closeAll ? this.toggle : undefined}>
+            <Modal isOpen={this.state.nestedModal} onClosed={this.state.closeAll ? this.toggle : undefined}>
               <ModalHeader>
                 <Button color="primary" onClick={this.toggleNested}>Visa metadata</Button>{' '}
                 <Button color="primary" onClick={this.toggleAll}>Stäng</Button>{' '}
