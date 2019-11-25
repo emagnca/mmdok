@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import PdfViewer from "./PdfViewer";
 import DropdownButton from './DropdownButton';
-import PropTypes from 'prop-types';
 
 class MyModal extends React.Component {
   constructor(props) {

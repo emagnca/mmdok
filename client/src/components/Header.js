@@ -17,10 +17,27 @@ class Header extends Component {
     this.filter = props.filter;
     this.showSearch = props.showSearch;
     this.showWrite = props.showWrite;
+    this.state = this.setState({ showSearchField: true });
   }
   
   handleKeyUp = (e) => {
     this.filter(e.target.value);
+  }
+
+  showSearchField = showSearchField => {
+    this.setState({ showSearchField: {showSearchField} });
+  }
+
+  showRightSidePane = () => {
+    if (true){
+      return (
+        <Col className="d-flex d-lg-flex justify-content-end">
+        <Form inline>
+          <Input type="text" className="mr-3" placeholder="Sök metadata" onKeyUp={(v) => this.handleKeyUp(v)} />
+        </Form>
+      </Col>
+      )
+    }
   }
 
     render = () => {
@@ -65,11 +82,7 @@ class Header extends Component {
               </NavbarBrand>
             </Col>
 
-            <Col className="d-flex d-lg-flex justify-content-end">
-              <Form inline>
-                <Input type="text" className="mr-3" placeholder="Sök metadata" onKeyUp={(v) => this.handleKeyUp(v)} />
-              </Form>
-            </Col>
+            {this.showRightSidePane()}
 
           </Row>
         </Container>

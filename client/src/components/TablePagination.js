@@ -6,11 +6,11 @@ import Datatable from './Datatable';
 export default class TablePagination extends Component {
 
   DATA = [
-    {'Name': 'Magnus', 'Age': 55, 'Location': 'Bromma'},
-    {'Name': 'Masoud', 'Age': 59, 'Location': 'Södermalm'},
-    {'Name': 'Stina', 'Age': 30, 'Location': 'Kista'},
-    {'Name': 'Olle', 'Age': 87, 'Location': 'Älvsjö'}
-]
+    { 'Name': 'Magnus', 'Age': 55, 'Location': 'Bromma' },
+    { 'Name': 'Masoud', 'Age': 59, 'Location': 'Södermalm' },
+    { 'Name': 'Stina', 'Age': 30, 'Location': 'Kista' },
+    { 'Name': 'Olle', 'Age': 87, 'Location': 'Älvsjö' }
+  ]
 
   constructor() {
 
@@ -28,11 +28,13 @@ export default class TablePagination extends Component {
   componentDidMount() {
     //this.setState({ metadata: this.data}); this.setState({pageCount: this.getPageCount() })
     axios.get('http://jsonplaceholder.typicode.com/todos')
-    //axios.get('http://35.228.104.97/filelist')
-    .then(response => { this.data = response.data; 
-                        this.setState({metadata: response.data}); 
-                        this.setState({pageCount: this.getPageCount() }) })
-      .catch(error => { console.log(error.message); })  
+      //axios.get('http://35.228.104.97/filelist')
+      .then(response => {
+      this.data = response.data;
+        this.setState({ metadata: response.data });
+        this.setState({ pageCount: this.getPageCount() })
+      })
+      .catch(error => { console.log(error.message); })
   }
 
   handleClick = (e, index) => {
@@ -52,12 +54,12 @@ export default class TablePagination extends Component {
 
   filter = txt => {
     let arr = this.data.filter((row) => {
-      for (var key in row){
-        if(row[key].toString().includes(txt)) return true;
+      for (var key in row) {
+        if (row[key].toString().includes(txt)) return true;
       }
       return false;
     });
-    this.setState({ currentPageNo: 0, metadata: arr, pageCount: Math.ceil(arr.length / this.pageSize)});
+    this.setState({ currentPageNo: 0, metadata: arr, pageCount: Math.ceil(arr.length / this.pageSize) });
   }
 
   sort = (column, order) => {
@@ -75,10 +77,12 @@ export default class TablePagination extends Component {
 
   search = params => {
     axios.get('http://35.228.104.97/filelist' + params)
-    .then(response => { this.data = response.data; 
-                        this.setState({metadata: response.data}); 
-                        this.setState({pageCount: this.getPageCount() }) })
-      .catch(error => { console.log(error.message); })  
+      .then(response => {
+      this.data = response.data;
+        this.setState({ metadata: response.data });
+        this.setState({ pageCount: this.getPageCount() })
+      })
+      .catch(error => { console.log(error.message); })
   }
 
 
@@ -86,7 +90,7 @@ export default class TablePagination extends Component {
     const currentPageNo = this.state.currentPageNo;
     return (
       <Fragment>
-        
+
         <Datatable
           data={this.currentPage}
           sort={this.sort}
