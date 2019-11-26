@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Button, ButtonGroup, Input, FormGroup, Label, Table } from 'reactstrap';
 import DragAndDrop from './DragAndDrop';
-import '../styles/Filedrop.css';
 import axios from 'axios';
 
 export default class Filelist extends Component {
